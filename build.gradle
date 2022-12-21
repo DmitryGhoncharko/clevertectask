@@ -31,6 +31,7 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.6'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.10.0'
 }
 
 test {

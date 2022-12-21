@@ -41,7 +41,7 @@ public class RestCheckServlet extends HttpServlet {
     private void proceedWithResponse(HttpServletResponse resp, String[] productsId, String[] countItemsId, String discountCardId) {
         CheckDTO checkDTO = null;
         try {
-            checkDTO = checkService.getCheckByProductsIdsAndDiscountCardIdI(productsId, countItemsId, discountCardId);
+            checkDTO = checkService.getCheckByProductsIdsAndDiscountCardId(productsId, countItemsId, discountCardId);
             resp.setStatus(OK_STATUS_CODE);
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();

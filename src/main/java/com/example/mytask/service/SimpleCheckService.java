@@ -34,7 +34,7 @@ public class SimpleCheckService implements CheckService {
     private final CheckServiceValidator checkServiceValidator;
 
     @Override
-    public CheckDTO getCheckByProductsIdsAndDiscountCardIdI(String[] productsId, String[] countProductsOnEachId, String discountCardId) throws ServiceException, ValidationFailedException {
+    public CheckDTO getCheckByProductsIdsAndDiscountCardId(String[] productsId, String[] countProductsOnEachId, String discountCardId) throws ServiceException, ValidationFailedException {
         if (!checkServiceValidator.validate(productsId, countProductsOnEachId, discountCardId)) {
             log.error(VALIDATION_FAILED_MESSAGE + Arrays.toString(productsId) + Arrays.toString(countProductsOnEachId) + discountCardId);
             throw new ValidationFailedException(VALIDATION_FAILED_MESSAGE + Arrays.toString(productsId) + Arrays.toString(countProductsOnEachId) + discountCardId);
