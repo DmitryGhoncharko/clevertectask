@@ -28,6 +28,12 @@ public class HikariCPConnectionPool implements ConnectionPool {
     private static final String DATABASE_MAX_POOL_SIZE;
     private static final HikariDataSource ds;
 
+    private static final String FILE_NOT_FOUND_EXCEPTION_MESSAGE = "FileNotFoundException";
+
+    private static final String IO_EXCEPTION_MESSAGE = "IOException";
+
+    private static final String DATABASE_CONNECTED_SUCCESSFUL_MESSAGE = "Database connected successful";
+
     static {
         try (InputStream inputStream = HikariCPConnectionPool.class.getClassLoader()
                 .getResourceAsStream(PROPERTIES_DATABASE_FILE_NAME)) {
@@ -38,11 +44,11 @@ public class HikariCPConnectionPool implements ConnectionPool {
             DATABASE_DRIVER = PROPERTIES.getProperty(PROPERTY_DRIVER);
             DATABASE_MAX_POOL_SIZE = PROPERTIES.getProperty(PROPERTY_MAX_POOL_SIZE);
         } catch (FileNotFoundException e) {
-            log.error("FileNotFoundException", e);
-            throw new RuntimeException("FileNotFoundException", e);
+            log.error(FILE_NOT_FOUND_EXCEPTION_MESSAGE, e);
+            throw new RuntimeException(FILE_NOT_FOUND_EXCEPTION_MESSAGE, e);
         } catch (IOException e) {
-            log.error("IOException", e);
-            throw new RuntimeException("IOException", e);
+            log.error(IO_EXCEPTION_MESSAGE, e);
+            throw new RuntimeException(IO_EXCEPTION_MESSAGE, e);
         }
         CONFIG.setJdbcUrl(DATABASE_URL);
         CONFIG.setUsername(DATABASE_USER);
@@ -50,7 +56,7 @@ public class HikariCPConnectionPool implements ConnectionPool {
         CONFIG.setDriverClassName(DATABASE_DRIVER);
         CONFIG.setMaximumPoolSize(Integer.parseInt(DATABASE_MAX_POOL_SIZE));
         ds = new HikariDataSource(CONFIG);
-        log.info("Database connected successful");
+        log.info(DATABASE_CONNECTED_SUCCESSFUL_MESSAGE);
     }
 
     @Override

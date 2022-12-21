@@ -1,5 +1,6 @@
 package com.example.mytask.dao;
 
+import com.example.mytask.connection.ConnectionPool;
 import com.example.mytask.exception.DaoException;
 import com.example.mytask.model.DiscountCard;
 import lombok.RequiredArgsConstructor;
@@ -15,19 +16,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostgresqlDiscountCardDao implements DiscountCardDao {
     private static final String SQL_GET_CARD_BY_ID = "select discount_card_id, discount_card_discount_value from discount_card where discount_card_id = ?";
-    private final Connection connection;
+    private static final String CANNOT_FIND_DISCOUNT_CARD_BY_CARD_ID_MESSAGE = "Cannot find discount card by card id = ";
+    private final ConnectionPool connectionPool;
 
     @Override
     public Optional<DiscountCard> getCardById(String id) throws DaoException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_CARD_BY_ID)) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_CARD_BY_ID)) {
             preparedStatement.setInt(1, Integer.parseInt(id));
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return Optional.of(extractDiscountCardFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            log.error("Cannot find discount card by card id = " + id, e);
-            throw new DaoException("Cannot find discount card by card id = " + id, e);
+            log.error(CANNOT_FIND_DISCOUNT_CARD_BY_CARD_ID_MESSAGE + id, e);
+            throw new DaoException(CANNOT_FIND_DISCOUNT_CARD_BY_CARD_ID_MESSAGE + id, e);
         }
         return Optional.empty();
     }

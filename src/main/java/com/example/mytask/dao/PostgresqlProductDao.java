@@ -1,5 +1,6 @@
 package com.example.mytask.dao;
 
+import com.example.mytask.connection.ConnectionPool;
 import com.example.mytask.exception.DaoException;
 import com.example.mytask.model.Product;
 import lombok.RequiredArgsConstructor;
@@ -17,18 +18,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostgresqlProductDao implements ProductDao {
     private static final String SQL_GET_PRODUCTS_BY_ID = "select product_id, product_name, product_price, product_is_promotion from product where ";
-    private final Connection connection;
+    private static final String CANNOT_GET_PRODUCTS_BY_ID_MESSAGE = "Cannot get products by id";
+    private static final String PRODUCT_ID_GENERATED_FOR_SQL_PART = "product_id = ? ";
+    private static final String OR_OPERATOR_FOR_SQL = "or ";
+
+    private final ConnectionPool connectionPool;
 
     @Override
     public List<Product> getProductsById(String[] productsId) throws DaoException {
         String generatedSQL = generateSQLByProductsId(productsId);
-        try (PreparedStatement preparedStatement = connection.prepareStatement(generatedSQL)) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(generatedSQL)) {
             initializePreparedStatement(preparedStatement, productsId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return extractProductsFromResultSet(resultSet);
         } catch (SQLException e) {
-            log.error("Cannot get products by id" + Arrays.toString(productsId), e);
-            throw new DaoException("Cannot get products by id" + Arrays.toString(productsId), e);
+            log.error(CANNOT_GET_PRODUCTS_BY_ID_MESSAGE + Arrays.toString(productsId), e);
+            throw new DaoException(CANNOT_GET_PRODUCTS_BY_ID_MESSAGE + Arrays.toString(productsId), e);
         }
     }
 
@@ -42,9 +47,9 @@ public class PostgresqlProductDao implements ProductDao {
         StringBuilder generatedSQL = new StringBuilder(SQL_GET_PRODUCTS_BY_ID);
         for (int i = 0; i < productsId.length; i++) {
             if (i == productsId.length - 1) {
-                generatedSQL.append("product_id = ? ");
+                generatedSQL.append(PRODUCT_ID_GENERATED_FOR_SQL_PART);
             } else {
-                generatedSQL.append("product_id = ? ").append("or ");
+                generatedSQL.append(PRODUCT_ID_GENERATED_FOR_SQL_PART).append(OR_OPERATOR_FOR_SQL);
             }
         }
         return generatedSQL.toString();
