@@ -3,8 +3,7 @@ package com.example.mytask.connection;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.pool.ProxyConnection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,8 +11,8 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Properties;
 
+@Slf4j
 public class HikariCPConnectionPool implements ConnectionPool {
-    private static final Logger LOG = LoggerFactory.getLogger(HikariCPConnectionPool.class);
     private static final HikariConfig CONFIG = new HikariConfig();
     private static final Properties PROPERTIES = new Properties();
     private static final String PROPERTIES_DATABASE_FILE_NAME = "application.properties";
@@ -39,10 +38,10 @@ public class HikariCPConnectionPool implements ConnectionPool {
             DATABASE_DRIVER = PROPERTIES.getProperty(PROPERTY_DRIVER);
             DATABASE_MAX_POOL_SIZE = PROPERTIES.getProperty(PROPERTY_MAX_POOL_SIZE);
         } catch (FileNotFoundException e) {
-            LOG.error("FileNotFoundException", e);
+            log.error("FileNotFoundException", e);
             throw new RuntimeException("FileNotFoundException", e);
         } catch (IOException e) {
-            LOG.error("IOException", e);
+            log.error("IOException", e);
             throw new RuntimeException("IOException", e);
         }
         CONFIG.setJdbcUrl(DATABASE_URL);
@@ -51,7 +50,7 @@ public class HikariCPConnectionPool implements ConnectionPool {
         CONFIG.setDriverClassName(DATABASE_DRIVER);
         CONFIG.setMaximumPoolSize(Integer.parseInt(DATABASE_MAX_POOL_SIZE));
         ds = new HikariDataSource(CONFIG);
-        LOG.info("Database connected successful");
+        log.info("Database connected successful");
     }
 
     @Override

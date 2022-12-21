@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class SimpleProductDao implements ProductDao {
+public class PostgresqlProductDao implements ProductDao {
     private static final String SQL_GET_PRODUCTS_BY_ID = "select product_id, product_name, product_price, product_is_promotion from product where ";
     private final Connection connection;
 

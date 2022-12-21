@@ -13,9 +13,10 @@ import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
-public class SimpleDiscountCardDao implements DiscountCardDao {
+public class PostgresqlDiscountCardDao implements DiscountCardDao {
     private static final String SQL_GET_CARD_BY_ID = "select discount_card_id, discount_card_discount_value from discount_card where discount_card_id = ?";
     private final Connection connection;
+
     @Override
     public Optional<DiscountCard> getCardById(String id) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_CARD_BY_ID)) {

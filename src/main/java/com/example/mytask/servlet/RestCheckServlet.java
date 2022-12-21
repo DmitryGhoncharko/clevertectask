@@ -24,16 +24,20 @@ public class RestCheckServlet extends HttpServlet {
         String[] countItemsId = req.getParameterValues("count");
         String discountCardId = req.getParameter("discount");
         try {
-            CheckDTO checkDTO = checkService.getCheckByProductsIdsAndDiscountCardIdI(productsId, countItemsId, discountCardId);
-            resp.setStatus(200);
-            GsonBuilder builder = new GsonBuilder();
-            builder.setPrettyPrinting();
-            Gson gson = builder.create();
-            String jsonString = gson.toJson(checkDTO);
-            PrintWriter writer = resp.getWriter();
-            writer.write(jsonString);
+            proceedWithRequestResponse(req,resp,productsId,countItemsId,discountCardId);
+
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
+    }
+    private void proceedWithRequestResponse(HttpServletRequest req, HttpServletResponse resp, String[] productsId, String[] countItemsId, String discountCardId) throws ServiceException, IOException {
+        CheckDTO checkDTO = checkService.getCheckByProductsIdsAndDiscountCardIdI(productsId, countItemsId, discountCardId);
+        resp.setStatus(200);
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+        Gson gson = builder.create();
+        String jsonString = gson.toJson(checkDTO);
+        PrintWriter writer = resp.getWriter();
+        writer.write(jsonString);
     }
 }

@@ -3,8 +3,8 @@ package com.example.mytask.service;
 import com.example.mytask.connection.ConnectionPool;
 import com.example.mytask.dao.DiscountCardDao;
 import com.example.mytask.dao.ProductDao;
-import com.example.mytask.dao.SimpleDiscountCardDao;
-import com.example.mytask.dao.SimpleProductDao;
+import com.example.mytask.dao.PostgresqlDiscountCardDao;
+import com.example.mytask.dao.PostgresqlProductDao;
 import com.example.mytask.dto.CheckDTO;
 import com.example.mytask.dto.ProductDTO;
 import com.example.mytask.exception.DaoException;
@@ -26,16 +26,14 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class SimpleCheckService implements CheckService {
-
-
     private final ConnectionPool connectionPool;
 
     @Override
     public CheckDTO getCheckByProductsIdsAndDiscountCardIdI(String[] productsId, String[] countProductsOnEachId, String discountCardId) throws ServiceException {
         try (Connection connection = connectionPool.getConnection()) {
             TransactionManager.startTransaction(connection);
-            ProductDao productDao = new SimpleProductDao(connection);
-            DiscountCardDao discountCardDao = new SimpleDiscountCardDao(connection);
+            ProductDao productDao = new PostgresqlProductDao(connection);
+            DiscountCardDao discountCardDao = new PostgresqlDiscountCardDao(connection);
             List<Product> products = productDao.getProductsById(productsId);
             Optional<DiscountCard> discountCard = discountCardDao.getCardById(discountCardId);
             List<ProductDTO> productDTOList = initializeProductsDto(products, countProductsOnEachId);
@@ -106,5 +104,4 @@ public class SimpleCheckService implements CheckService {
         }
         return productDTOList;
     }
-
 }
