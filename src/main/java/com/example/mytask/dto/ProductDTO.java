@@ -11,7 +11,6 @@ import lombok.ToString;
 public class ProductDTO {
     private final Product product;
     private final int count;
-
     private final double finalPrise;
 
     private ProductDTO(Builder builder) {

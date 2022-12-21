@@ -21,7 +21,6 @@ public class PostgresqlProductDao implements ProductDao {
     private static final String CANNOT_GET_PRODUCTS_BY_ID_MESSAGE = "Cannot get products by id";
     private static final String PRODUCT_ID_GENERATED_FOR_SQL_PART = "product_id = ? ";
     private static final String OR_OPERATOR_FOR_SQL = "or ";
-
     private final ConnectionPool connectionPool;
 
     @Override

@@ -4,7 +4,6 @@ import com.example.mytask.connection.ConnectionPool;
 import com.example.mytask.connection.ConnectionPoolFactory;
 
 public class PostgresqlDaoFactory implements DaoFactory {
-
     private final ConnectionPool connectionPool;
 
     public PostgresqlDaoFactory(ConnectionPoolFactory connectionPoolFactory) {

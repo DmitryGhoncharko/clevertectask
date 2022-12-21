@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface ProductDao {
     List<Product> getProductsById(String[] productsId) throws DaoException;
-
 }

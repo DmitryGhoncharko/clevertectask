@@ -11,10 +11,13 @@ import com.google.gson.GsonBuilder;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
+@Slf4j
 public class RestCheckServlet extends HttpServlet {
     private static final String PRODUCT_PARAM_NAME_REQUEST = "product";
     private static final String COUNT_PARAM_NAME_REQUEST = "count";
@@ -22,6 +25,8 @@ public class RestCheckServlet extends HttpServlet {
     public static final int OK_STATUS_CODE = 200;
     public static final int BAD_REQUEST_STATUS_CODE = 400;
     public static final int INTERNAL_SERVER_ERROR_STATUS_CODE = 500;
+    public static final String VALIDATION_FAILED_MESSAGE = "Validation failed ";
+    public static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error";
     private final ServiceFactory serviceFactory = new CheckServiceFactory();
     private final CheckService checkService = serviceFactory.createCheckService();
 
@@ -30,10 +35,10 @@ public class RestCheckServlet extends HttpServlet {
         String[] productsId = req.getParameterValues(PRODUCT_PARAM_NAME_REQUEST);
         String[] countItemsId = req.getParameterValues(COUNT_PARAM_NAME_REQUEST);
         String discountCardId = req.getParameter(DISCOUNT_PARAM_NAME_REQUEST);
-        proceedWithRequestResponse(req, resp, productsId, countItemsId, discountCardId);
+        proceedWithResponse(resp, productsId, countItemsId, discountCardId);
     }
 
-    private void proceedWithRequestResponse(HttpServletRequest req, HttpServletResponse resp, String[] productsId, String[] countItemsId, String discountCardId) {
+    private void proceedWithResponse(HttpServletResponse resp, String[] productsId, String[] countItemsId, String discountCardId) {
         CheckDTO checkDTO = null;
         try {
             checkDTO = checkService.getCheckByProductsIdsAndDiscountCardIdI(productsId, countItemsId, discountCardId);
@@ -45,8 +50,10 @@ public class RestCheckServlet extends HttpServlet {
             PrintWriter writer = resp.getWriter();
             writer.write(jsonString);
         } catch (ValidationFailedException e) {
+            log.error(VALIDATION_FAILED_MESSAGE + Arrays.toString(productsId) + Arrays.toString(countItemsId) + discountCardId);
             resp.setStatus(BAD_REQUEST_STATUS_CODE);
         } catch (ServiceException | IOException e) {
+            log.error(INTERNAL_SERVER_ERROR_MESSAGE + Arrays.toString(productsId) + Arrays.toString(countItemsId) + discountCardId);
             resp.setStatus(INTERNAL_SERVER_ERROR_STATUS_CODE);
         }
     }

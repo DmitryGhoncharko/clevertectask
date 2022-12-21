@@ -14,8 +14,9 @@ public class CheckServiceFactory implements ServiceFactory {
     private final DaoFactory daoFactory = new PostgresqlDaoFactory(connectionPoolFactory);
 
     private final CheckServiceValidatorFactory checkServiceValidatorFactory = new SimpleCheckServiceValidatorFactory();
+
     @Override
     public CheckService createCheckService() {
-        return new SimpleCheckService(daoFactory.createProductDao(), daoFactory.createDiscountCardDao(),checkServiceValidatorFactory.createValidator());
+        return new SimpleCheckService(daoFactory.createProductDao(), daoFactory.createDiscountCardDao(), checkServiceValidatorFactory.createValidator());
     }
 }

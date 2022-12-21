@@ -26,6 +26,8 @@ public class SimpleCheckService implements CheckService {
     private static final String DEFAULT_ZERO_VALUE_FOR_FINAL_PRICE = "0.0";
     private static final int COUNT_PRODUCTS_FOR_DISCOUNT_TEN_PERCENT_ON_THIS_PRODUCT = 5;
     private static final int NUMBERS_AFTER_COME_PARAM_ROUNDING_VALUE = 3;
+    private static final String CANNOT_CREATE_CHECK_MESSAGE = "Cannot create check";
+    private static final String VALIDATION_FAILED_MESSAGE = "Validation failed";
     private final ProductDao productDao;
     private final DiscountCardDao discountCardDao;
 
@@ -34,8 +36,8 @@ public class SimpleCheckService implements CheckService {
     @Override
     public CheckDTO getCheckByProductsIdsAndDiscountCardIdI(String[] productsId, String[] countProductsOnEachId, String discountCardId) throws ServiceException, ValidationFailedException {
         if (!checkServiceValidator.validate(productsId, countProductsOnEachId, discountCardId)) {
-            log.error("Validation failed" + " productsId=" + productsId + " countProductsEachId= " + countProductsOnEachId + " discountCardId= " + discountCardId);
-            throw new ValidationFailedException("Validation failed" + " productsId=" + productsId + " countProductsEachId= " + countProductsOnEachId + " discountCardId= " + discountCardId);
+            log.error(VALIDATION_FAILED_MESSAGE + Arrays.toString(productsId) + Arrays.toString(countProductsOnEachId) + discountCardId);
+            throw new ValidationFailedException(VALIDATION_FAILED_MESSAGE + Arrays.toString(productsId) + Arrays.toString(countProductsOnEachId) + discountCardId);
         }
         try {
             List<Product> products = productDao.getProductsById(productsId);
@@ -52,8 +54,8 @@ public class SimpleCheckService implements CheckService {
                 return extractCheckDTO(productDTOList, totalPrice);
             }
         } catch (DaoException e) {
-            log.error("Cannot create check productsId = " + Arrays.toString(productsId) + " discountCardId = " + discountCardId, e);
-            throw new ServiceException("Cannot create check productsId = " + Arrays.toString(productsId) + " discountCardId = " + discountCardId, e);
+            log.error(CANNOT_CREATE_CHECK_MESSAGE + Arrays.toString(productsId) + Arrays.toString(countProductsOnEachId) + discountCardId, e);
+            throw new ServiceException(CANNOT_CREATE_CHECK_MESSAGE + Arrays.toString(productsId) + Arrays.toString(countProductsOnEachId) + discountCardId, e);
         }
     }
 
