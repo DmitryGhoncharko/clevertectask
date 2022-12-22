@@ -12,7 +12,7 @@
 ## 10.Gradle
 
 # Инструкция по запуску:
-## Я развернул приложение на отдельном сервере, вот урл чтобы потестить http://31.222.229.204:80/check?product=1&count=2&discount=1
+## Я развернул приложение на отдельном сервере, вот урл чтобы потестить http://31.222.229.204:80/check?product=1&count=2&discount=1&product=2&count=3&product=3&count=1&product=4&count=4&product=5&count=5&product=6&count=6
 ## 1.Java 17 или выше
 ## 2.Поднять Postgresql с пользователем dangeonmaster и паролем jmXzj3eV
 ## 3.Порт постгресс 5432 database называется task -- jdbc:postgresql://localhost:5432/task
