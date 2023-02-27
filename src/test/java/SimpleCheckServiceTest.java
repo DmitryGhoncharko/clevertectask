@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SimpleCheckServiceTest {
+public class SimpleCheckServiceTest{
     private ProductDao productDao = Mockito.mock(ProductDao.class);
     private DiscountCardDao discountCardDao = Mockito.mock(DiscountCardDao.class);
     private CheckService checkService = new SimpleCheckService(productDao, discountCardDao, new SimpleCheckServiceValidator());
