@@ -36,18 +36,4 @@ public interface Cache<K, V> {
      */
     void clear();
 
-    /**
-     * Returns the max memory size of the cache.
-     *
-     * @return max memory size.
-     */
-    int getMaxMemorySize();
-
-    /**
-     * Returns the current memory size of the cache.
-     *
-     * @return current memory size.
-     */
-    int getMemorySize();
-
 }

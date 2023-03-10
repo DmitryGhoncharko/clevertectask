@@ -84,16 +84,6 @@ public class LruCache<K, V> implements Cache<K, V> {
         trimToSize(REMOVE_ALL);
     }
 
-    @Override
-    public synchronized final int getMaxMemorySize() {
-        return maxMemorySize;
-    }
-
-    @Override
-    public synchronized final int getMemorySize() {
-        return memorySize;
-    }
-
     /**
      * Returns a copy of the current contents of the cache.
      */
