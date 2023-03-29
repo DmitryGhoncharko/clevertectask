@@ -11,7 +11,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.9.2'
+    junitVersion = '5.9.1'
 }
 
 sourceCompatibility = '11'
@@ -25,26 +25,23 @@ dependencies {
     implementation 'com.mikemybytes:junit5-formatted-source-tests:0.2.0'
     implementation 'com.mikemybytes:junit5-formatted-source:0.2.0'
     implementation 'com.mikemybytes:junit5-formatted-source-parent:0.2.0'
-    testImplementation 'org.projectlombok:lombok:1.18.26'
+    testImplementation 'org.projectlombok:lombok:1.18.22'
     compileOnly('jakarta.servlet:jakarta.servlet-api:5.0.0')
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.4'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.1'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.10'
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.1'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.6'
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
-    annotationProcessor 'org.projectlombok:lombok:1.18.26'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.2.0'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.10.0'
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
 // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.14.2'
     // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
     implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.3'
-
-
-
 }
 
 test {

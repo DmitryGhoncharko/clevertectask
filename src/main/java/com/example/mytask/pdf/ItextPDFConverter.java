@@ -4,8 +4,6 @@ import com.example.mytask.dto.CheckDTO;
 import com.example.mytask.dto.ProductDTO;
 import com.example.mytask.exception.PDFConverterError;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +20,7 @@ public class ItextPDFConverter implements PDFConverter {
     private final String filePath;
 
     @Override
-    public void convertToPDFAndSave(CheckDTO checkDTO) throws PDFConverterError {
+    public boolean convertToPDFAndSave(CheckDTO checkDTO) throws PDFConverterError {
         Document document = new Document();
         if (checkDTO == null) {
             throw new PDFConverterError("Cannot create check, checkDTO is null");
@@ -31,6 +29,8 @@ public class ItextPDFConverter implements PDFConverter {
             PdfWriter.getInstance(document, new FileOutputStream(filePath + checkId.incrementAndGet() + ".pdf"));
             document.open();
             addContent(document, checkDTO);
+            document.close();
+            return true;
         } catch (Exception e) {
             log.error("Cannot create check", e);
             throw new PDFConverterError("Cannot create check", e);
@@ -48,8 +48,6 @@ public class ItextPDFConverter implements PDFConverter {
         Paragraph paragraph = new Paragraph();
         addEmptyLine(paragraph, 5);
         subCatPart.add(paragraph);
-        createTable(subCatPart);
-        document.add(catPart);
         document.add(catPart);
 
     }
@@ -61,8 +59,8 @@ public class ItextPDFConverter implements PDFConverter {
         }
         if (checkDTO.getDiscountCard() != null) {
             list.add(new ListItem("Discount: " + checkDTO.getDiscountCard().getDiscount()));
-            list.add(new ListItem("Total price: " + checkDTO.getTotalPrice()));
         }
+        list.add(new ListItem("Total price: " + checkDTO.getTotalPrice()));
         subCatPart.add(list);
     }
 
@@ -70,37 +68,5 @@ public class ItextPDFConverter implements PDFConverter {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }
-    }
-
-    private void createTable(Section subCatPart) throws BadElementException {
-        PdfPTable table = new PdfPTable(3);
-
-        // t.setBorderColor(BaseColor.GRAY);
-        // t.setPadding(4);
-        // t.setSpacing(4);
-        // t.setBorderWidth(1);
-
-        PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Table Header 2"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Table Header 3"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-        table.setHeaderRows(1);
-
-        table.addCell("1.0");
-        table.addCell("1.1");
-        table.addCell("1.2");
-        table.addCell("2.1");
-        table.addCell("2.2");
-        table.addCell("2.3");
-
-        subCatPart.add(table);
-
     }
 }
