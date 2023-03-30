@@ -21,6 +21,26 @@ public class ItextPDFConverterTest {
     }
 
     public CheckDTO initCheckDTO() {
-        return new CheckDTO.Builder().withProductsDTO(Collections.singletonList(new ProductDTO.Builder().withProduct(new Product.Builder().withName("Bread").withId(1L).withIsPromotion(true).withPrice(22.2).build()).withCount(3).withFinalPrice(66.6).build())).withDiscountCard(new DiscountCard.Builder().withId(1L).withDiscount(20.0).build()).withTotalPrice(53.28).build();
+        return new CheckDTO.Builder().
+                withProductsDTO(Collections.
+                        singletonList(new ProductDTO.
+                                Builder().
+                                withProduct(new Product.
+                                        Builder().
+                                        withName("Bread").
+                                        withId(1L).
+                                        withIsPromotion(true).
+                                        withPrice(22.2).
+                                        build())
+                                .withCount(3).
+                                withFinalPrice(66.6).
+                                build())).
+                withDiscountCard(new DiscountCard.
+                        Builder().
+                        withId(1L).
+                        withDiscount(20.0).
+                        build()).
+                withTotalPrice(53.28).
+                build();
     }
 }

@@ -36,11 +36,8 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.10.0'
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
-// https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.14.2'
-    // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
     implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.3'
 }
 
