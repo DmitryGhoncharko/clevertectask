@@ -3,6 +3,9 @@ package com.example.mytask.servlet;
 import com.example.mytask.dto.CheckDTO;
 import com.example.mytask.exception.ServiceException;
 import com.example.mytask.exception.ValidationFailedException;
+import com.example.mytask.pdf.PDFConverter;
+import com.example.mytask.pdf.PDFConverterFactory;
+import com.example.mytask.pdf.SimplePDFConverterFactory;
 import com.example.mytask.service.CheckService;
 import com.example.mytask.service.CheckServiceFactory;
 import com.example.mytask.service.ServiceFactory;
@@ -19,16 +22,18 @@ import java.util.Arrays;
 
 @Slf4j
 public class RestCheckServlet extends HttpServlet {
-    private static final String PRODUCT_PARAM_NAME_REQUEST = "product";
-    private static final String COUNT_PARAM_NAME_REQUEST = "count";
-    private static final String DISCOUNT_PARAM_NAME_REQUEST = "discount";
     public static final int OK_STATUS_CODE = 200;
     public static final int BAD_REQUEST_STATUS_CODE = 400;
     public static final int INTERNAL_SERVER_ERROR_STATUS_CODE = 500;
     public static final String VALIDATION_FAILED_MESSAGE = "Validation failed ";
     public static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error";
+    private static final String PRODUCT_PARAM_NAME_REQUEST = "product";
+    private static final String COUNT_PARAM_NAME_REQUEST = "count";
+    private static final String DISCOUNT_PARAM_NAME_REQUEST = "discount";
     private final ServiceFactory serviceFactory = new CheckServiceFactory();
+    private final PDFConverterFactory pdfConverterFactory = new SimplePDFConverterFactory();
     private final CheckService checkService = serviceFactory.createCheckService();
+    private final PDFConverter pdfConverter = pdfConverterFactory.createPDFConverter();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -42,6 +47,7 @@ public class RestCheckServlet extends HttpServlet {
         CheckDTO checkDTO = null;
         try {
             checkDTO = checkService.getCheckByProductsIdsAndDiscountCardId(productsId, countItemsId, discountCardId);
+            pdfConverter.convertToPDFAndSave(checkDTO);
             resp.setStatus(OK_STATUS_CODE);
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();

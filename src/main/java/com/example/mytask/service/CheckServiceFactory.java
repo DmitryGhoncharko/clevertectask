@@ -18,6 +18,6 @@ public class CheckServiceFactory implements ServiceFactory {
 
     @Override
     public CheckService createCheckService() {
-        return new SimpleCheckService(daoFactoryProxy.createProductDao(), daoFactoryProxy.createDiscountCardDao(), checkServiceValidatorFactory.createValidator());
+        return new SimpleCheckService(daoFactory.createProductDao(), daoFactory.createDiscountCardDao(), checkServiceValidatorFactory.createValidator());
     }
 }
