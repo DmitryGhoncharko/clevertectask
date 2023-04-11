@@ -3,7 +3,7 @@ package com.example.mytask.pdf;
 import java.io.File;
 
 public class SimplePDFConverterFactory implements PDFConverterFactory {
-    private static final String FILE_PATH = "C:\\tmp\\pdf\\";
+    public static final String FILE_PATH = "C:\\tmp\\pdf\\";
 
     @Override
     public PDFConverter createPDFConverter() {

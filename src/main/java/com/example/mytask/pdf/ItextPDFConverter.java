@@ -20,7 +20,7 @@ public class ItextPDFConverter implements PDFConverter {
     private final String filePath;
 
     @Override
-    public boolean convertToPDFAndSave(CheckDTO checkDTO) throws PDFConverterError {
+    public long convertToPDFAndSave(CheckDTO checkDTO) throws PDFConverterError {
         Document document = new Document();
         if (checkDTO == null) {
             throw new PDFConverterError("Cannot create check, checkDTO is null");
@@ -30,7 +30,7 @@ public class ItextPDFConverter implements PDFConverter {
             document.open();
             addContent(document, checkDTO);
             document.close();
-            return true;
+            return checkId.get();
         } catch (Exception e) {
             log.error("Cannot create check", e);
             throw new PDFConverterError("Cannot create check", e);

@@ -8,8 +8,38 @@
         <servlet-class>com.example.mytask.servlet.RestCheckServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>RestDiscountCardServlet</servlet-name>
+        <servlet-class>com.example.mytask.servlet.RestDiscountCardServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RestGetCheckServlet</servlet-name>
         <url-pattern>/check</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RestDiscountCardServlet</servlet-name>
+        <url-pattern>/discount</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RestProductServlet</servlet-name>
+        <servlet-class>com.example.mytask.servlet.RestProductServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RestProductServlet</servlet-name>
+        <url-pattern>/product</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>CharsetFilter</filter-name>
+        <filter-class>com.example.mytask.filter.CharsetFilter</filter-class>
+        <init-param>
+            <param-name>requestEncoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharsetFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

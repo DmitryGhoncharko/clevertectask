@@ -6,9 +6,9 @@ import com.example.mytask.exception.DaoException;
 import com.example.mytask.model.Product;
 import lombok.RequiredArgsConstructor;
 
-
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class PostgresqlProductDaoProxy implements ProductDao {
@@ -30,5 +30,30 @@ public class PostgresqlProductDaoProxy implements ProductDao {
             }
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public Optional<Product> getProductById(String id) throws DaoException {
+        return productDao.getProductById(id);
+    }
+
+    @Override
+    public List<Product> findAll() throws DaoException {
+        return productDao.findAll();
+    }
+
+    @Override
+    public Product updateById(String id, String name, double price, boolean isPromotion) throws DaoException {
+        return productDao.updateById(id, name, price, isPromotion);
+    }
+
+    @Override
+    public boolean deleteById(String id) throws DaoException {
+        return productDao.deleteById(id);
+    }
+
+    @Override
+    public Product create(String name, double price, boolean isPromotion) throws DaoException {
+        return productDao.create(name, price, isPromotion);
     }
 }
