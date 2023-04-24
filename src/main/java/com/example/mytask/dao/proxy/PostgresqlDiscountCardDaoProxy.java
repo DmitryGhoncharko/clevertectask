@@ -6,6 +6,7 @@ import com.example.mytask.exception.DaoException;
 import com.example.mytask.model.DiscountCard;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,5 +27,25 @@ public class PostgresqlDiscountCardDaoProxy implements DiscountCardDao {
             discountCardOptional.ifPresent(card -> cache.put(Long.parseLong(id), card));
             return discountCardOptional;
         }
+    }
+
+    @Override
+    public List<DiscountCard> findAll() throws DaoException {
+        return discountCardDao.findAll();
+    }
+
+    @Override
+    public DiscountCard updateById(String id, double discountValue) throws DaoException {
+        return discountCardDao.updateById(id, discountValue);
+    }
+
+    @Override
+    public boolean deleteById(String id) throws DaoException {
+        return discountCardDao.deleteById(id);
+    }
+
+    @Override
+    public DiscountCard create(double discountValue) throws DaoException {
+        return discountCardDao.create(discountValue);
     }
 }

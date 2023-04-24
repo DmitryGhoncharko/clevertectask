@@ -17,7 +17,7 @@ public class ItextPDFConverterTest {
         PDFConverterFactory pdfConverterFactory = new SimplePDFConverterFactory();
         PDFConverter pdfConverter = pdfConverterFactory.createPDFConverter();
         CheckDTO checkDTO = initCheckDTO();
-        Assertions.assertTrue(pdfConverter.convertToPDFAndSave(checkDTO));
+        Assertions.assertTrue(pdfConverter.convertToPDFAndSave(checkDTO)>0);
     }
 
     public CheckDTO initCheckDTO() {
